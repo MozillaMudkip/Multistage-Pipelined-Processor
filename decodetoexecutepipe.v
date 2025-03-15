@@ -56,7 +56,6 @@ module decodetoexecutepipe (clk, rst, inRead1Data, inRead2Data, inImmediateExt, 
 	input inRegisterWrite;
 	input nop;
 	input stall;
-	
 	//Pipe Inputs to Outputs
 	//read1
 	dff read1Data[15:0](.q(outRead1Data), .d(inRead1Data), .clk(clk), .rst(rst));
