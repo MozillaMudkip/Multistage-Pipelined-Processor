@@ -4,13 +4,9 @@ module proc (/*AUTOARG*/
    // Inputs
    clk, rst
    );
-
    input clk;
    input rst;
-
    output err;
-
-   // None of the above lines can be modified
 	wire errFetch; //Error Output for fetch
 	wire errDecode; //Error Output for Decode
 	wire errExecute; //Error Output for Execute
