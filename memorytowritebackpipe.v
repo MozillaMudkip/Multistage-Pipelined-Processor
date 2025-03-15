@@ -1,9 +1,9 @@
 /*
 	CS/ECE 552 Fall 2024
-	Filename: MEM_WB.v
+	Filename: memorytowritebackpipe.v
 	Description: MEM_WB pipeline register
 */
-module MEM_WB (clk, rst, inPlusTwoPC, inMemoryToRegister, inWriteRegister, inRegisterWrite, inMemoryOut, inXOut, inLink, inHalt, outMemoryOut, outPlusTwoPC, outMemoryToRegister, outWriteRegister, outRegisterWrite, outXout, outLink, outHalt);
+module memorytowritebackpipe (clk, rst, inPlusTwoPC, inMemoryToRegister, inWriteRegister, inRegisterWrite, inMemoryOut, inXOut, inLink, inHalt, outMemoryOut, outPlusTwoPC, outMemoryToRegister, outWriteRegister, outRegisterWrite, outXout, outLink, outHalt);
 	output [15:0] outMemoryOut;
 	output [15:0] outPlusTwoPC;
 	output [15:0] outXout;
