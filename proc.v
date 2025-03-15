@@ -1,6 +1,3 @@
-/* $Author: sinclair $ */
-/* $LastChangedDate: 2020-02-09 17:03:45 -0600 (Sun, 09 Feb 2020) $ */
-/* $Rev: 46 $ */
 module proc (/*AUTOARG*/
    // Outputs
    err, 
@@ -20,8 +17,6 @@ module proc (/*AUTOARG*/
 	wire errMemory; //Error Output for Memory
 	wire errWriteBack; //Error Output for Writeback
 	assign err = (errFetch | errDecode | errExecute | errMemory | errWriteBack); //Combined Master Error Signal
-   
-	/* your code here -- should include instantiations of fetch, decode, execute, mem and wb modules */
 	
 	//currInstruct and PC data for pipelining use
 	wire [15:0] plusTwoPCFetch;
@@ -63,7 +58,7 @@ module proc (/*AUTOARG*/
 	
 	//Execute Pipeline Logic
 	wire [15:0] read1DataExecute;
-    wire [15:0] read2DataExecute;
+    	wire [15:0] read2DataExecute;
 	wire [15:0] immediateExtExecute;
 	wire [15:0] XOutExecute;
 	wire [15:0] jumpImmDestExecute;
@@ -151,8 +146,5 @@ module proc (/*AUTOARG*/
 	MEM_WB MemoryWBPipe(.outMemoryOut(memOutWriteBack), .outXout(XOutWriteBack), .outLink(linkWriteBack), .outPlusTwoPC(plusTwoPCWriteBack), .outMemoryToRegister(memoryToRegisterWriteBack), .outWriteRegister(writeToRegWriteBack),
 		.outRegisterWrite(registerWriteWriteBack), .outHalt(writeBackHalt), .clk(clk), .rst(rst), .inMemoryOut(memOutMemory), .inXOut(XOutMemory), .inLink(linkMemory), .inPlusTwoPC(plusTwoPCMemory), .inMemoryToRegister(memoryToRegisterMemory),
 		.inWriteRegister(writeToRegMemory), .inRegisterWrite(registerWriteMemory), .inHalt(memoryHalt));
-   
-    hazard_detection hazardUnit(.stall(stall), .opCodeDecode(instructionDecode[15:11]), .RsDecode(instructionDecode[10:8]), .RtDecode(instructionDecode[7:5]), .writeToRegExecute(writeToRegExecute),
-		.registerWriteExecute(registerWriteExecute), .writeToRegMemory(writeToRegMemory), .registerWriteMemory(registerWriteMemory), .jumpDTaken(jumpDTaken));
-endmodule // proc
+endmodule 
 // DUMMY LINE FOR REV CONTROL :0:
