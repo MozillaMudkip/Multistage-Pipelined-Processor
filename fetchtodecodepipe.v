@@ -1,9 +1,9 @@
 /*
 	CS/ECE 552 Fall 2024
-	Filename: IF_ID.v
+	Filename: fetchtodecodepipe.v
 	Description: Fetch to Decode Pipeline
 */
-module IF_ID (clk, rst, inInstruct, inPlusTwoPC, stall, flush, outInstruct, outPlusTwoPC);
+module fetchtodecodepipe (clk, rst, inInstruct, inPlusTwoPC, stall, flush, outInstruct, outPlusTwoPC);
 	output [15:0] outInstruct;
 	output [15:0] outPlusTwoPC;
 	input [15:0] inInstruct;
