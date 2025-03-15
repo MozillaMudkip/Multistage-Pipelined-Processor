@@ -1,9 +1,9 @@
 /*
 	CS/ECE 552 Fall 2024
-	Filename: ID_EX.v
+	Filename: decodetoexecutepipe.v
 	Description: Decode to Execute pipeline
 */
-module ID_EX (clk, rst, inRead1Data, inRead2Data, inImmediateExt, inWriteRegister, inHalt, inCreateDump, inALUOp, inSrcALU, inSrcALUClear, inCin, inInvA, inInvB, inSign,
+module decodetoexecutepipe (clk, rst, inRead1Data, inRead2Data, inImmediateExt, inWriteRegister, inHalt, inCreateDump, inALUOp, inSrcALU, inSrcALUClear, inCin, inInvA, inInvB, inSign,
 				inJumpImm, inPlusTwoPC, inMemoryWrite, inMemoryRead, inSetCmp, inCmpOp, inMemoryToRegister, inLink, inExtendedOp, inRegisterWrite, nop, stall, outRead1Data, outRead2Data, outImmediateExt, outWriteRegister, outHalt, outCreateDump,
 				outALUOp, outSrcALU, outSrcALUClear, outCin, outInvA, outInvB, outSign, outJumpImm, outPlusTwoPC, outMemoryWrite, outMemoryRead, outSetCmp, outCmpOp, outMemoryToRegister, outLink, outExtendedOp, outRegisterWrite);
 	output [15:0] outRead1Data;
