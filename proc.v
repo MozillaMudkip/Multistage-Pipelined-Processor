@@ -18,7 +18,7 @@ module proc (/*AUTOARG*/
 	wire [15:0] plusTwoPCFetch;
 	wire [15:0] plusTwoPCDecode;
 	wire [15:0] plusTwoPCExecute;
-	wire [15:0]	plusTwoPCMemory;
+	wire [15:0] plusTwoPCMemory;
 	wire [15:0] plusTwoPCWriteBack;
 	wire [15:0] instructionFetch;
 	wire [15:0] instructionDecode;
@@ -107,7 +107,7 @@ module proc (/*AUTOARG*/
 	fetch fetch_first_stage(.err(errFetch), .currInstruct(instructionFetch), .plusTwoPC(plusTwoPCFetch), .clk(clk), .rst(rst), .halt(decodeHalt & (~jumpImmExecutePipe) & (~jumpDTaken)),
 		.jumpDTaken(jumpDTaken), .jumpDDest(jumpDDest), .jumpImm(jumpImmExecutePipe), .jumpImmDest(jumpImmDestExecute), .stall(stall & ~jumpImmExecutePipe));
 	
-	IF_ID FetchDecodePipe(.outInstruct(instructionDecode), .outPlusTwoPC(plusTwoPCDecode), .clk(clk), .rst(rst), .inInstruct(instructionFetch), .inPlusTwoPC(plusTwoPCFetch),
+	fetchtodecodepipe FetchDecodePipe(.outInstruct(instructionDecode), .outPlusTwoPC(plusTwoPCDecode), .clk(clk), .rst(rst), .inInstruct(instructionFetch), .inPlusTwoPC(plusTwoPCFetch),
 		.stall(stall), .flush((jumpImmExecutePipe & ~(stall & jumpImmDecodePipe)) | (jumpDTaken & ~stall)));
 	
 	decode decode_second_stage(.err(errDecode), .read1Data(read1DataDecode), .read2Data(read2DataDecode), .immediateExt(immediateExtDecode), .writeToRegister(writeToRegDecode), .halt(decodeHalt),
@@ -120,7 +120,7 @@ module proc (/*AUTOARG*/
 		.ALUOp(ALUOpExecute), .srcALU(srcALUExecute), .srcALUClear(srcALUClearExecute), .Cin(CinExecute), .invA(invAExecute), .invB(invBExecute), .sign(signExecute), .CmpOp(CmpOpExecute),
 		.specialOP(extendedOpExecute), .CmpSet(setCmpExecute), .jumpImm(jumpImmExecutePipe));
 		
-	ID_EX DecodeExecutePipe(.outRead1Data(read1DataExecute), .outRead2Data(read2DataExecute), .outImmediateExt(immediateExtExecute), .outWriteRegister(writeToRegExecute), .outHalt(executeHalt),
+	decodetoexecutepipe DecodeExecutePipe(.outRead1Data(read1DataExecute), .outRead2Data(read2DataExecute), .outImmediateExt(immediateExtExecute), .outWriteRegister(writeToRegExecute), .outHalt(executeHalt),
 		.outCreateDump(createDumpExecute), .outALUOp(ALUOpExecute), .outSrcALU(srcALUExecute), .outSrcALUClear(srcALUClearExecute), .outCin(CinExecute), .outInvA(invAExecute), .outInvB(invBExecute),
 		.outSign(signExecute), .outJumpImm(jumpImmExecutePipe), .outPlusTwoPC(plusTwoPCExecute), .outMemoryWrite(memoryWriteExecute), .outMemoryRead(memoryReadExecute), .outSetCmp(setCmpExecute),
 		.outCmpOp(CmpOpExecute), .outMemoryToRegister(memoryToRegisterExecute), .outLink(linkExecute), .outExtendedOp(extendedOpExecute), .outRegisterWrite(registerWriteExecute), .clk(clk), .rst(rst), .inRead1Data(read1DataDecode),
@@ -132,14 +132,14 @@ module proc (/*AUTOARG*/
 	memory memory_fourth_stage(.err(errMemory), .memoryOut(memOutMemory), .clk(clk), .rst(rst), .XOut(XOutMemory), .WriteData(read2DataMemory), .MemWrite(memoryWriteMemory & ~writeBackHalt),
 		.MemRead(memoryReadMemory), .createdump(createDumpMemory));
 		
-	EX_MEM ExecuteMemoryPipe(.outXout(XOutMemory), .outRead2Data(read2DataMemory), .outMemoryWrite(memoryWriteMemory), .outMemoryRead(memoryReadMemory), .outHalt(memoryHalt), .outCreateDump(createDumpMemory),
+	executetomemorypipe ExecuteMemoryPipe(.outXout(XOutMemory), .outRead2Data(read2DataMemory), .outMemoryWrite(memoryWriteMemory), .outMemoryRead(memoryReadMemory), .outHalt(memoryHalt), .outCreateDump(createDumpMemory),
 		.outLink(linkMemory), .outPlusTwoPC(plusTwoPCMemory), .outMemoryToRegister(memoryToRegisterMemory), .outWriteRegister(writeToRegMemory), .outRegisterWrite(registerWriteMemory),
 		.clk(clk), .rst(rst), .inXOut(XOutExecute), .inRead2Data(read2DataExecute), .inMemoryWrite(memoryWriteExecute), .inMemoryRead(memoryReadExecute), .inHalt(executeHalt), .inCreateDump(createDumpExecute),
 		.inLink(linkExecute), .inPlusTwoPC(plusTwoPCExecute), .inMemoryToRegister(memoryToRegisterExecute), .inWriteRegister(writeToRegExecute), .inRegisterWrite(registerWriteExecute));
 	
 	wb wb_fifth_stage(.err(errWriteBack), .writeBackData(writeBackData), .link(linkWriteBack), .plusTwoPC(plusTwoPCWriteBack), .memoryToRegister(memoryToRegisterWriteBack), .memoryOut(memOutWriteBack), .XOut(XOutWriteBack));
 	
-	MEM_WB MemoryWBPipe(.outMemoryOut(memOutWriteBack), .outXout(XOutWriteBack), .outLink(linkWriteBack), .outPlusTwoPC(plusTwoPCWriteBack), .outMemoryToRegister(memoryToRegisterWriteBack), .outWriteRegister(writeToRegWriteBack),
+	memorytowritebackpipe MemoryWBPipe(.outMemoryOut(memOutWriteBack), .outXout(XOutWriteBack), .outLink(linkWriteBack), .outPlusTwoPC(plusTwoPCWriteBack), .outMemoryToRegister(memoryToRegisterWriteBack), .outWriteRegister(writeToRegWriteBack),
 		.outRegisterWrite(registerWriteWriteBack), .outHalt(writeBackHalt), .clk(clk), .rst(rst), .inMemoryOut(memOutMemory), .inXOut(XOutMemory), .inLink(linkMemory), .inPlusTwoPC(plusTwoPCMemory), .inMemoryToRegister(memoryToRegisterMemory),
 		.inWriteRegister(writeToRegMemory), .inRegisterWrite(registerWriteMemory), .inHalt(memoryHalt));
 endmodule 
