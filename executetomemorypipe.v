@@ -1,9 +1,9 @@
 /*
 	CS/ECE 552 Fall 2024
-	Filename: EX_MEM.v
+	Filename: executetomemorypipe.v
 	Description: EX_MEM pipeline register
 */
-module EX_MEM (clk, rst, inXOut, inRead2Data, inMemoryWrite, inMemoryRead, inHalt, inCreateDump, inLink, inPlusTwoPC, inMemoryToRegister, inWriteRegister, inRegisterWrite, outXout, outRead2Data, outMemoryWrite, outMemoryRead, outHalt, outCreateDump, outLink, outPlusTwoPC, outMemoryToRegister, outWriteRegister, outRegisterWrite);
+module executetomemorypipe (clk, rst, inXOut, inRead2Data, inMemoryWrite, inMemoryRead, inHalt, inCreateDump, inLink, inPlusTwoPC, inMemoryToRegister, inWriteRegister, inRegisterWrite, outXout, outRead2Data, outMemoryWrite, outMemoryRead, outHalt, outCreateDump, outLink, outPlusTwoPC, outMemoryToRegister, outWriteRegister, outRegisterWrite);
 	output [15:0] outXout;
 	output [15:0] outPlusTwoPC;
 	output [15:0] outRead2Data;
